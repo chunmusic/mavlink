@@ -1,0 +1,20 @@
+<mavlink>
+    <include>common.xml</include>
+    <dialect>4</dialect>
+    <messages>
+        <message id="369" name="UAV_ARMING">
+            <description>UAV_ARMING</description>
+            <field type="uint64_t" name="timestamp"> </field>
+            <field type="int8_t" name="nav_state"> </field>
+            <field type="int8_t" name="arming_state"> </field>
+            <field type="int8_t" name="armed"> </field>
+            <field type="int8_t" name="prearmed"> </field>
+            <field type="int8_t" name="ready_to_arm"> </field>
+            <field type="int8_t" name="lockdown"> </field>
+            <field type="int8_t" name="manual_lockdown"> </field>
+            <field type="int8_t" name="force_failsafe"> </field>
+            <field type="int8_t" name="in_esc_calibration_mode"> </field>
+            <field type="int8_t" name="soft_stop"> </field>
+        </message>
+    </messages>
+</mavlink>
