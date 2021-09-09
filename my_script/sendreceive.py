@@ -1,6 +1,9 @@
 from pymavlink import mavutil
 import time
+import sys, select, os
 
+# Set to use MAVLINK2
+os.environ['MAVLINK20'] = '1'
 
 mavutil.set_dialect("uav_arming")
 
@@ -16,6 +19,27 @@ children.wait_heartbeat()
 
 print("Heartbeat from system (system %u component %u)" %(parent.target_system, parent.target_component))
 print("Heartbeat from system (system %u component %u)" %(children.target_system, children.target_component))
+
+# Heartbeat and logging for parent
+parent.mav.command_long_send(parent.target_system,
+        parent.target_component,
+        mavutil.mavlink.MAV_CMD_LOGGING_START, 0,
+        0, 0, 0, 0, 0, 0, 0)
+
+parent.mav.heartbeat_send(mavutil.mavlink.MAV_TYPE_GCS,
+        mavutil.mavlink.MAV_AUTOPILOT_GENERIC, 0, 0, 0)
+
+
+# Heartbeat and logging for children
+
+children.mav.command_long_send(children.target_system,
+        children.target_component,
+        mavutil.mavlink.MAV_CMD_LOGGING_START, 0,
+        0, 0, 0, 0, 0, 0, 0)
+
+children.mav.heartbeat_send(mavutil.mavlink.MAV_TYPE_GCS,
+        mavutil.mavlink.MAV_AUTOPILOT_GENERIC, 0, 0, 0)
+
 
 counter = 0
 
