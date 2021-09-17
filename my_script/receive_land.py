@@ -21,8 +21,8 @@ hoverGames.mav.command_long_send(hoverGames.target_system,
 print("Start Logging")
 
 while (True):
-    
-    msg = hoverGames.recv_match(type='UAV2_THRUST', blocking=True)
+
+    msg = hoverGames.recv_match(type='UAV_LANDING', blocking=True)
 
     #check that the message is valid before attempting to use it
     if not msg:
@@ -35,8 +35,11 @@ while (True):
             sys.stdout.flush()
     else:
         #Message is valid, so use the attribute
-        for i in range(4):
-            print('uav_actuator[%d]: %s' % (i,msg.actuator_control[i]))
+        print('nav_state: %d' % msg.alt_max)
+        print('arming_state : %d' % msg.freefall)
+        print('armed: %d' % msg.ground_contact)
+        print('prearmed: %d' % msg.maybe_landed)
+        print('ready_to_arm: %d' % msg.landed)
+        print('lockdown: %d' % msg.in_ground_effect)
 
         print('\n')
-

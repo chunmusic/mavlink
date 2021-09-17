@@ -1,0 +1,50 @@
+<mavlink>
+    <include>common.xml</include>
+    <dialect>4</dialect>
+    <messages>
+        <message id="226" name="UAV_COMMAND">
+            <description>UAV_COMMAND</description>
+            <field type="uint64_t" name="timestamp"> </field>
+            <field type="int8_t" name="nav_state"> </field>
+            <field type="int8_t" name="arming_state"> </field>
+            <field type="int8_t" name="armed"> </field>
+            <field type="int8_t" name="prearmed"> </field>
+            <field type="int8_t" name="ready_to_arm"> </field>
+            <field type="int8_t" name="lockdown"> </field>
+            <field type="int8_t" name="manual_lockdown"> </field>
+            <field type="int8_t" name="force_failsafe"> </field>
+            <field type="int8_t" name="in_esc_calibration_mode"> </field>
+            <field type="int8_t" name="soft_stop"> </field>
+        </message>
+        <message id="227" name="UAV_LANDING">
+            <description>UAV_LANDING</description>
+            <field type="uint64_t" name="timestamp"> </field>
+            <field type="float" name="alt_max"> </field>
+            <field type="int8_t" name="freefall"> </field>
+            <field type="int8_t" name="ground_contact"> </field>
+            <field type="int8_t" name="maybe_landed"> </field>
+            <field type="int8_t" name="landed"> </field>
+            <field type="int8_t" name="in_ground_effect"> </field>
+        </message>
+        <message id="180" name="UAV1_THRUST">
+            <description>UAV1_THRUST</description>
+            <field type="uint64_t" name="timestamp"> </field>
+            <field type="float[8]" name="actuator_control"> </field>
+        </message>
+        <message id="181" name="UAV2_THRUST">
+            <description>UAV2_THRUST</description>
+            <field type="uint64_t" name="timestamp"> </field>
+            <field type="float[8]" name="actuator_control"> </field>
+        </message>
+        <message id="182" name="UAV3_THRUST">
+            <description>UAV3_THRUST</description>
+            <field type="uint64_t" name="timestamp"> </field>
+            <field type="float[8]" name="actuator_control"> </field>
+        </message>
+        <message id="183" name="UAV4_THRUST">
+            <description>UAV4_THRUST</description>
+            <field type="uint64_t" name="timestamp"> </field>
+            <field type="float[8]" name="actuator_control"> </field>
+        </message>
+    </messages>
+</mavlink>

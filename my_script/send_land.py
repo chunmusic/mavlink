@@ -28,25 +28,19 @@ counter = 0
 #send custom mavlink message
 while(True) :
 
-    hoverGames.mav.uav_command_send(
+    hoverGames.mav.uav_landing_send(
 
     timestamp = int(time.time() * 1e6), # time in microseconds
     
-    # TO DISARM
-    nav_state = 4,
-    arming_state = 1,
-    armed = 0,
-    prearmed = 0,
-    ready_to_arm = 1,
-    lockdown = 0,
-    manual_lockdown = 0,
-    force_failsafe = 0,
-    in_esc_calibration_mode = 0,
-    soft_stop = 0)
+    # TO ARM
+    alt_max = 12,
+    freefall = 0,
+    ground_contact = 1,
+    maybe_landed = 0,
+    landed = 1,
+    in_ground_effect = 0)
 
     counter += 1
     print ("The custom mesage with the number %u was sent it!!!!" %(counter))
 
     time.sleep(2.0)
-
-

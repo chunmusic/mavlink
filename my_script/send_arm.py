@@ -5,7 +5,7 @@ import sys, select, os
 os.environ['MAVLINK20'] = '1'
 
 
-mavutil.set_dialect("uav_arming")
+mavutil.set_dialect("multi_uav")
 
 # create a connection to FMU
 hoverGames = mavutil.mavlink_connection("/dev/ttyACM0", baud=921600)
@@ -28,7 +28,7 @@ counter = 0
 #send custom mavlink message
 while(True) :
 
-    hoverGames.mav.uav_arming_send(
+    hoverGames.mav.uav_command_send(
 
     timestamp = int(time.time() * 1e6), # time in microseconds
     
