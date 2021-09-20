@@ -8,7 +8,7 @@ os.environ['MAVLINK20'] = '1'
 mavutil.set_dialect("multi_uav")
 
 # create a connection to FMU
-hoverGames = mavutil.mavlink_connection("/dev/ttyACM0", baud=921600)
+hoverGames = mavutil.mavlink_connection("/dev/ttyid3", baud=921600)
 
 # wait for the heartbeat message to find the system id
 hoverGames.wait_heartbeat()
