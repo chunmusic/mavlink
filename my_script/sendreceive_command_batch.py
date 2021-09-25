@@ -21,6 +21,10 @@ class uav_unit:
         self.uav.mav.heartbeat_send(mavutil.mavlink.MAV_TYPE_GCS,
                                     mavutil.mavlink.MAV_AUTOPILOT_GENERIC, 0, 0, 0)
 
+    def receive_command(self):
+        msg = self.uav.recv_match(type='UAV_COMMAND',blocking=True)
+        return msg
+
     def send_uav_command(self,p_nav_state,p_arming_state,p_armed,p_prearmed,p_ready_to_arm,
                          p_lockdown,p_manual_lock,p_force_failsafe,p_in_esc_calibration_mode,p_soft_stop):
         
@@ -69,7 +73,7 @@ if __name__ == "__main__":
     while (True):
 
         print("loop")
-        uav1_msg = uav1.recv_match(type='UAV_COMMAND', blocking=True)
+        uav1_msg = uav1.receive_command()
         print("loop2")
         #check that the message is valid before attempting to use it
         if not uav1_msg:
