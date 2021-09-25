@@ -41,22 +41,22 @@ class uav_unit:
                                       soft_stop = p_soft_stop)    
 
     def send_uav3_thrust(self,control):
-        self.uav.mav.uav3_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
+        self.uav.mav.uav1_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
                                       actuator_control = [control[0],control[1],control[2],control[4],
                                                           control[5],control[6],control[7],control[8]])
 
     def send_uav4_thrust(self,control):
-        self.uav.mav.uav4_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
+        self.uav.mav.uav2_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
                                       actuator_control = [control[0],control[1],control[2],control[4],
                                                           control[5],control[6],control[7],control[8]])
 
     def send_uav5_thrust(self,control):
-        self.uav.mav.uav5_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
+        self.uav.mav.uav3_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
                                       actuator_control = [control[0],control[1],control[2],control[4],
                                                           control[5],control[6],control[7],control[8]])
 
     def send_uav6_thrust(self,control):
-        self.uav.mav.uav6_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
+        self.uav.mav.uav4_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
                                       actuator_control = [control[0],control[1],control[2],control[4],
                                                           control[5],control[6],control[7],control[8]])
 
@@ -136,10 +136,10 @@ if __name__ == "__main__":
                 print('uav_actuator[%d]: %s' % (i,uav1_msg.actuator_control[i]))
             print('\n')
 
-            uav3.send_uav3_thrust(uav1_msg.actuator_control)
-            uav4.send_uav4_thrust(uav1_msg.actuator_control)
-            uav5.send_uav5_thrust(uav1_msg.actuator_control)
-            uav6.send_uav6_thrust(uav1_msg.actuator_control)
+            uav3.send_uav1_thrust(uav1_msg.actuator_control)
+            uav4.send_uav2_thrust(uav1_msg.actuator_control)
+            uav5.send_uav3_thrust(uav1_msg.actuator_control)
+            uav6.send_uav4_thrust(uav1_msg.actuator_control)
 
 
         counter += 1
