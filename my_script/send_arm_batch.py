@@ -7,11 +7,10 @@ class uav_unit:
         self.port = port
         self.baudrate = baudrate
         self.uav = mavutil.mavlink_connection(self.port, self.baudrate)
-        return self.uav
     
     def heartbeat_check(self):
         self.uav.wait_heartbeat()
-        print("Heartbeat from system (system %u component %u)" %(self.uav.target_system, self.uav.target))
+        print("Heartbeat from system (system %u component %u)" %(self.uav.target_system, self.uav.target_component))
 
     def initialize_logging(self):
         self.uav.mav.command_long_send(self.uav.target_system,
