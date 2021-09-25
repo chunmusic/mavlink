@@ -93,36 +93,41 @@ if __name__ == "__main__":
     while (True):
 
         print("loop")
-        uav1_msg = uav1.receive_command("UAV_COMMAND")
+        command_msg = uav1.receive_command("UAV_COMMAND")
         print("loop2")
         #check that the message is valid before attempting to use it
-        if not uav1_msg:
+        if not command_msg:
             print('No message!\n')
             continue
 
-        if uav1_msg.get_type() == "BAD_DATA":
-            if mavutil.all_printable(uav1_msg.data):
-                sys.stdout.write(uav1_msg.data)
+        if command_msg.get_type() == "BAD_DATA":
+            if mavutil.all_printable(command_msg.data):
+                sys.stdout.write(command_msg.data)
                 sys.stdout.flush()
         else:
             
             for uav in children_uav_list:
 
-                uav.send_uav_command(uav1_msg.nav_state,
-                                     uav1_msg.arming_state,
-                                     uav1_msg.armed,
-                                     uav1_msg.prearmed,
-                                     uav1_msg.ready_to_arm,
-                                     uav1_msg.lockdown,
-                                     uav1_msg.manual_lockdown,
-                                     uav1_msg.force_failsafe,
-                                     uav1_msg.in_esc_calibration_mode,
-                                     uav1_msg.soft_stop)
+                uav.send_uav_command(command_msg.nav_state,
+                                     command_msg.arming_state,
+                                     command_msg.armed,
+                                     command_msg.prearmed,
+                                     command_msg.ready_to_arm,
+                                     command_msg.lockdown,
+                                     command_msg.manual_lockdown,
+                                     command_msg.force_failsafe,
+                                     command_msg.in_esc_calibration_mode,
+                                     command_msg.soft_stop)
+
+        print("Ready to send thrust")
 
         uav1_msg = uav1.receive_command('UAV1_THRUST')
+        uav2_msg = uav1.receive_command('UAV2_THRUST')
+        uav3_msg = uav1.receive_command('UAV3_THRUST')
+        uav4_msg = uav1.receive_command('UAV4_THRUST')
 
         #check that the message is valid before attempting to use it
-        if not uav1_msg:
+        if not uav1_msg and uav2_msg and uav3_msg and uav4_msg:
             print('No message!\n')
             continue
 
@@ -133,13 +138,42 @@ if __name__ == "__main__":
         else:
             #Message is valid, so use the attribute
             for i in range(4):
-                print('uav_actuator[%d]: %s' % (i,uav1_msg.actuator_control[i]))
+                print('uav1_actuator[%d]: %s' % (i,uav1_msg.actuator_control[i]))
             print('\n')
-
             uav3.send_uav1_thrust(uav1_msg.actuator_control)
-            uav4.send_uav2_thrust(uav1_msg.actuator_control)
-            uav5.send_uav3_thrust(uav1_msg.actuator_control)
-            uav6.send_uav4_thrust(uav1_msg.actuator_control)
+
+        if uav2_msg.get_type() == "BAD_DATA":
+            if mavutil.all_printable(uav2_msg.data):
+                sys.stdout.write(uav2_msg.data)
+                sys.stdout.flush()
+        else:
+            #Message is valid, so use the attribute
+            for i in range(4):
+                print('uav2_actuator[%d]: %s' % (i,uav2_msg.actuator_control[i]))
+            print('\n')
+            uav4.send_uav2_thrust(uav2_msg.actuator_control)
+
+        if uav3_msg.get_type() == "BAD_DATA":
+            if mavutil.all_printable(uav3_msg.data):
+                sys.stdout.write(uav3_msg.data)
+                sys.stdout.flush()
+        else:
+            #Message is valid, so use the attribute
+            for i in range(4):
+                print('uav3_actuator[%d]: %s' % (i,uav3_msg.actuator_control[i]))
+            print('\n')
+            uav5.send_uav3_thrust(uav3_msg.actuator_control)
+
+        if uav4_msg.get_type() == "BAD_DATA":
+            if mavutil.all_printable(uav4_msg.data):
+                sys.stdout.write(uav4_msg.data)
+                sys.stdout.flush()
+        else:
+            #Message is valid, so use the attribute
+            for i in range(4):
+                print('uav4_actuator[%d]: %s' % (i,uav4_msg.actuator_control[i]))
+            print('\n')
+            uav6.send_uav4_thrust(uav4_msg.actuator_control)
 
 
         counter += 1
