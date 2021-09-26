@@ -40,25 +40,25 @@ class uav_unit:
                                       in_esc_calibration_mode = p_in_esc_calibration_mode,
                                       soft_stop = p_soft_stop)    
 
-    def send_uav3_thrust(self,control):
+    def send_uav1_thrust(self,control):
         self.uav.mav.uav1_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
-                                      actuator_control = [control[0],control[1],control[2],control[4],
-                                                          control[5],control[6],control[7],control[8]])
+                                      actuator_control = [control[0],control[1],control[2],control[3],
+                                                          control[4],control[5],control[6],control[7]])
+
+    def send_uav2_thrust(self,control):
+        self.uav.mav.uav2_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
+                                      actuator_control = [control[0],control[1],control[2],control[3],
+                                                          control[4],control[5],control[6],control[7]])
+
+    def send_uav3_thrust(self,control):
+        self.uav.mav.uav3_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
+                                      actuator_control = [control[0],control[1],control[2],control[3],
+                                                          control[4],control[5],control[6],control[7]])
 
     def send_uav4_thrust(self,control):
-        self.uav.mav.uav2_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
-                                      actuator_control = [control[0],control[1],control[2],control[4],
-                                                          control[5],control[6],control[7],control[8]])
-
-    def send_uav5_thrust(self,control):
-        self.uav.mav.uav3_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
-                                      actuator_control = [control[0],control[1],control[2],control[4],
-                                                          control[5],control[6],control[7],control[8]])
-
-    def send_uav6_thrust(self,control):
         self.uav.mav.uav4_thrust_send(timestamp = int(time.time() * 1e6), # time in microseconds
-                                      actuator_control = [control[0],control[1],control[2],control[4],
-                                                          control[5],control[6],control[7],control[8]])
+                                      actuator_control = [control[0],control[1],control[2],control[3],
+                                                          control[4],control[5],control[6],control[7]])
 
 if __name__ == "__main__":
 
