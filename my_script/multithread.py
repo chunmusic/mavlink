@@ -117,6 +117,9 @@ def loop_command():
                                      command_msg.force_failsafe,
                                      command_msg.in_esc_calibration_mode,
                                      command_msg.soft_stop)
+            
+            print("from commander")
+
 
 def loop_thrust_uav1():
     while True:
@@ -131,6 +134,8 @@ def loop_thrust_uav1():
                 sys.stdout.flush()
         else:
             uav3.send_uav1_thrust(uav1_msg.actuator_control)
+            print("from uav1_thrust")
+
 
 def loop_thrust_uav2():
     while True:
@@ -145,6 +150,7 @@ def loop_thrust_uav2():
                 sys.stdout.flush()
         else:
             uav4.send_uav2_thrust(uav2_msg.actuator_control)
+            print("from uav2_thrust")
 
 def loop_thrust_uav3():
     while True:
@@ -159,6 +165,7 @@ def loop_thrust_uav3():
                 sys.stdout.flush()
         else:
             uav5.send_uav3_thrust(uav3_msg.actuator_control)
+            print("from uav3_thrust")
 
 def loop_thrust_uav4():
      while True:
@@ -173,6 +180,7 @@ def loop_thrust_uav4():
                 sys.stdout.flush()
         else:
             uav6.send_uav4_thrust(uav4_msg.actuator_control)
+            print("from uav4_thrust")
 
 
 if __name__ == "__main__":
