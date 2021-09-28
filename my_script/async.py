@@ -24,7 +24,7 @@ class uav_unit:
                                     mavutil.mavlink.MAV_AUTOPILOT_GENERIC, 0, 0, 0)
 
     def receive_command(self,mavlink_msg):
-        msg = self.uav.recv_match(type=mavlink_msg,blocking=True)
+        msg = self.uav.recv_match(type=mavlink_msg,blocking=False)
         return msg
 
     def send_uav_command(self,p_nav_state,p_arming_state,p_armed,p_prearmed,p_ready_to_arm,
@@ -89,7 +89,7 @@ def initialize():
 
     print("All units connected")
 
-async def loop_command():
+def loop_command():
     command_msg = uav1.receive_command("UAV_COMMAND")
     #check that the message is valid before attempting to use it
     if not command_msg:
@@ -113,11 +113,10 @@ async def loop_command():
                                     command_msg.force_failsafe,
                                     command_msg.in_esc_calibration_mode,
                                     command_msg.soft_stop)
-    await asyncio.sleep(0)
     print("from commander")
 
 
-async def loop_thrust_uav1():
+def loop_thrust_uav1():
     uav1_msg = uav1.receive_command('UAV1_THRUST')
     if not uav1_msg:
         print('No message!\n')
@@ -129,11 +128,10 @@ async def loop_thrust_uav1():
             sys.stdout.flush()
     else:
         uav3.send_uav1_thrust(uav1_msg.actuator_control)
-    await asyncio.sleep(0)
     print("from uav1_thrust")
 
 
-async def loop_thrust_uav2():
+def loop_thrust_uav2():
     uav2_msg = uav1.receive_command('UAV2_THRUST')
     if not uav2_msg:
         print('No message!\n')
@@ -144,10 +142,9 @@ async def loop_thrust_uav2():
             sys.stdout.flush()
     else:
         uav4.send_uav2_thrust(uav2_msg.actuator_control)
-    await asyncio.sleep(0)
     print("from uav2_thrust")
 
-async def loop_thrust_uav3():
+def loop_thrust_uav3():
     uav3_msg = uav1.receive_command('UAV3_THRUST')
     if not uav3_msg:
         print('No message!\n')
@@ -158,10 +155,9 @@ async def loop_thrust_uav3():
             sys.stdout.flush()
     else:
         uav5.send_uav3_thrust(uav3_msg.actuator_control)
-    await asyncio.sleep(0)
     print("from uav3_thrust")
 
-async def loop_thrust_uav4():
+def loop_thrust_uav4():
     uav4_msg = uav1.receive_command('UAV4_THRUST')
     if not uav4_msg:
         print('No message!\n')
@@ -172,22 +168,7 @@ async def loop_thrust_uav4():
             sys.stdout.flush()
     else:
         uav6.send_uav4_thrust(uav4_msg.actuator_control)
-    await asyncio.sleep(0)
     print("from uav4_thrust")
-
-
-# async def main():
-#     task1 = asyncio.create_task(loop_command())
-#     task2 = asyncio.create_task(loop_thrust_uav1())
-#     task3 = asyncio.create_task(loop_thrust_uav2())
-#     task4 = asyncio.create_task(loop_thrust_uav3())
-#     task5 = asyncio.create_task(loop_thrust_uav4())
-
-#     await task1
-#     await task2
-#     await task3
-#     await task4
-#     await task5
 
 if __name__ == "__main__":
 
@@ -199,15 +180,13 @@ if __name__ == "__main__":
 
         start = time.perf_counter()
 
-        loop = asyncio.get_event_loop()
 
         while True:
-            loop.create_task(loop_command())
-            loop.create_task(loop_thrust_uav1())
-            loop.create_task(loop_thrust_uav2())
-            loop.create_task(loop_thrust_uav3())
-            loop.create_task(loop_thrust_uav4())
-
+            loop_command()
+            loop_thrust_uav1()
+            loop_thrust_uav2()
+            loop_thrust_uav3()
+            loop_thrust_uav4()
             
     except KeyboardInterrupt:
         pass
