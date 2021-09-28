@@ -186,18 +186,18 @@ async def loop_thrust_uav4():
         print("from uav4_thrust")
 
 
-async def main():
-    task1 = asyncio.create_task(loop_command())
-    task2 = asyncio.create_task(loop_thrust_uav1())
-    task3 = asyncio.create_task(loop_thrust_uav2())
-    task4 = asyncio.create_task(loop_thrust_uav3())
-    task5 = asyncio.create_task(loop_thrust_uav4())
+# async def main():
+#     task1 = asyncio.create_task(loop_command())
+#     task2 = asyncio.create_task(loop_thrust_uav1())
+#     task3 = asyncio.create_task(loop_thrust_uav2())
+#     task4 = asyncio.create_task(loop_thrust_uav3())
+#     task5 = asyncio.create_task(loop_thrust_uav4())
 
-    await task1
-    await task2
-    await task3
-    await task4
-    await task5
+#     await task1
+#     await task2
+#     await task3
+#     await task4
+#     await task5
 
 if __name__ == "__main__":
 
@@ -209,8 +209,15 @@ if __name__ == "__main__":
 
         start = time.perf_counter()
 
-        asyncio.run(main())
-    
+        loop = asyncio.get_event_loop()
+        loop.create_task(loop_command())
+        loop.create_task(loop_thrust_uav1())
+        loop.create_task(loop_thrust_uav2())
+        loop.create_task(loop_thrust_uav3())
+        loop.create_task(loop_thrust_uav4())
+
+        loop.run_forever()
+            
     except KeyboardInterrupt:
         pass
 
