@@ -94,26 +94,27 @@ def loop_command():
     #check that the message is valid before attempting to use it
     if not command_msg:
         print('No message!\n')
+        return
 
-    if command_msg.get_type() == "BAD_DATA":
-        pass
-        if mavutil.all_printable(command_msg.data):
-            sys.stdout.write(command_msg.data)
-            sys.stdout.flush()
     else:
-        
-        for uav in children_uav_list:
+        if command_msg.get_type() == "BAD_DATA":
+            if mavutil.all_printable(command_msg.data):
+                sys.stdout.write(command_msg.data)
+                sys.stdout.flush()
+        else:
+            
+            for uav in children_uav_list:
 
-            uav.send_uav_command(command_msg.nav_state,
-                                    command_msg.arming_state,
-                                    command_msg.armed,
-                                    command_msg.prearmed,
-                                    command_msg.ready_to_arm,
-                                    command_msg.lockdown,
-                                    command_msg.manual_lockdown,
-                                    command_msg.force_failsafe,
-                                    command_msg.in_esc_calibration_mode,
-                                    command_msg.soft_stop)
+                uav.send_uav_command(command_msg.nav_state,
+                                        command_msg.arming_state,
+                                        command_msg.armed,
+                                        command_msg.prearmed,
+                                        command_msg.ready_to_arm,
+                                        command_msg.lockdown,
+                                        command_msg.manual_lockdown,
+                                        command_msg.force_failsafe,
+                                        command_msg.in_esc_calibration_mode,
+                                        command_msg.soft_stop)
     print("from commander")
 
 
@@ -121,57 +122,56 @@ def loop_thrust_uav1():
     uav1_msg = uav1.receive_command('UAV1_THRUST')
     if not uav1_msg:
         print('No message!\n')
-        
-    if uav1_msg.get_type() == "BAD_DATA":
-        pass
-        if mavutil.all_printable(uav1_msg.data):
-            sys.stdout.write(uav1_msg.data)
-            sys.stdout.flush()
+        return
     else:
-        uav3.send_uav1_thrust(uav1_msg.actuator_control)
+        if uav1_msg.get_type() == "BAD_DATA":
+            if mavutil.all_printable(uav1_msg.data):
+                sys.stdout.write(uav1_msg.data)
+                sys.stdout.flush()
+        else:
+            uav3.send_uav1_thrust(uav1_msg.actuator_control)
     print("from uav1_thrust")
-
 
 def loop_thrust_uav2():
     uav2_msg = uav1.receive_command('UAV2_THRUST')
     if not uav2_msg:
         print('No message!\n')
-
-    if uav2_msg.get_type() == "BAD_DATA":
-        pass
-        if mavutil.all_printable(uav2_msg.data):
-            sys.stdout.write(uav2_msg.data)
-            sys.stdout.flush()
+        return
     else:
-        uav4.send_uav2_thrust(uav2_msg.actuator_control)
+        if uav2_msg.get_type() == "BAD_DATA":
+            if mavutil.all_printable(uav2_msg.data):
+                sys.stdout.write(uav2_msg.data)
+                sys.stdout.flush()
+        else:
+            uav4.send_uav2_thrust(uav2_msg.actuator_control)
     print("from uav2_thrust")
 
 def loop_thrust_uav3():
     uav3_msg = uav1.receive_command('UAV3_THRUST')
     if not uav3_msg:
         print('No message!\n')
-
-    if uav3_msg.get_type() == "BAD_DATA":
-        pass
-        if mavutil.all_printable(uav3_msg.data):
-            sys.stdout.write(uav3_msg.data)
-            sys.stdout.flush()
+        return
     else:
-        uav5.send_uav3_thrust(uav3_msg.actuator_control)
+        if uav3_msg.get_type() == "BAD_DATA":
+            if mavutil.all_printable(uav3_msg.data):
+                sys.stdout.write(uav3_msg.data)
+                sys.stdout.flush()
+        else:
+            uav5.send_uav3_thrust(uav3_msg.actuator_control)
     print("from uav3_thrust")
 
 def loop_thrust_uav4():
     uav4_msg = uav1.receive_command('UAV4_THRUST')
     if not uav4_msg:
         print('No message!\n')
-
-    if uav4_msg.get_type() == "BAD_DATA":
-        pass
-        if mavutil.all_printable(uav4_msg.data):
-            sys.stdout.write(uav4_msg.data)
-            sys.stdout.flush()
+        return
     else:
-        uav6.send_uav4_thrust(uav4_msg.actuator_control)
+        if uav4_msg.get_type() == "BAD_DATA":
+            if mavutil.all_printable(uav4_msg.data):
+                sys.stdout.write(uav4_msg.data)
+                sys.stdout.flush()
+        else:
+            uav6.send_uav4_thrust(uav4_msg.actuator_control)
     print("from uav4_thrust")
 
 if __name__ == "__main__":
