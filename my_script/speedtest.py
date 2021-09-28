@@ -149,24 +149,29 @@ def loop_thrust_uav2():
     print("from uav2_thrust")
 
 def loop_thrust_uav3():
+    global old_msg, current_msg
+
     uav3_msg = uav1.receive_command('UAV3_THRUST')
     if not uav3_msg:
         return
         print('No message!\n')
         
     else:
+        current_msg = time.perf_counter()
+        print("Transmission speed 3: " + str(current_msg - old_msg))
         if uav3_msg.get_type() == "BAD_DATA":
             if mavutil.all_printable(uav3_msg.data):
                 sys.stdout.write(uav3_msg.data)
                 sys.stdout.flush()
         else:
             uav5.send_uav3_thrust(uav3_msg.actuator_control)
+        old_msg = current_msg
+
     print("from uav3_thrust")
 
 
 
 def loop_thrust_uav4():
-    global old_msg, current_msg
 
     uav4_msg = uav1.receive_command('UAV4_THRUST')
     if not uav4_msg:
@@ -174,15 +179,12 @@ def loop_thrust_uav4():
         print('No message!\n')
         
     else:
-        current_msg = time.perf_counter()
-        print("Transmission speed: " + str(current_msg - old_msg))
         if uav4_msg.get_type() == "BAD_DATA":
             if mavutil.all_printable(uav4_msg.data):
                 sys.stdout.write(uav4_msg.data)
                 sys.stdout.flush()
         else:
             uav6.send_uav4_thrust(uav4_msg.actuator_control)
-        old_msg = current_msg
 
     print("from uav4_thrust")
 
