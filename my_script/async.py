@@ -160,18 +160,26 @@ def loop_thrust_uav3():
             uav5.send_uav3_thrust(uav3_msg.actuator_control)
     print("from uav3_thrust")
 
+
+
 def loop_thrust_uav4():
+    global old_msg, current_msg
+
     uav4_msg = uav1.receive_command('UAV4_THRUST')
     if not uav4_msg:
         print('No message!\n')
         return
     else:
+        current_msg = time.perf_counter()
+        print("Transmission speed: " + str(current_msg - old_msg))
         if uav4_msg.get_type() == "BAD_DATA":
             if mavutil.all_printable(uav4_msg.data):
                 sys.stdout.write(uav4_msg.data)
                 sys.stdout.flush()
         else:
             uav6.send_uav4_thrust(uav4_msg.actuator_control)
+        old_msg = current_msg
+
     print("from uav4_thrust")
 
 if __name__ == "__main__":
@@ -180,10 +188,12 @@ if __name__ == "__main__":
     mavutil.set_dialect("multi_uav")
     initialize()
 
+
+    old_msg = 0
+
     try:
 
-        start = time.perf_counter()
-
+        # start = time.perf_counter()
 
         while True:
             loop_command()
@@ -196,7 +206,7 @@ if __name__ == "__main__":
         pass
 
     finally:
-        finish = time.perf_counter()
+        # finish = time.perf_counter()
 
 
     print(f'Finished in {round(finish-start, 2)} second(s)')
