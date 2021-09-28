@@ -90,100 +90,90 @@ def initialize():
     print("All units connected")
 
 async def loop_command():
+    command_msg = uav1.receive_command("UAV_COMMAND")
+    #check that the message is valid before attempting to use it
+    if not command_msg:
+        print('No message!\n')
 
-    while True:
-        command_msg = uav1.receive_command("UAV_COMMAND")
-        #check that the message is valid before attempting to use it
-        if not command_msg:
-            print('No message!\n')
-            continue
+    if command_msg.get_type() == "BAD_DATA":
+        if mavutil.all_printable(command_msg.data):
+            sys.stdout.write(command_msg.data)
+            sys.stdout.flush()
+    else:
+        
+        for uav in children_uav_list:
 
-        if command_msg.get_type() == "BAD_DATA":
-            if mavutil.all_printable(command_msg.data):
-                sys.stdout.write(command_msg.data)
-                sys.stdout.flush()
-        else:
-            
-            for uav in children_uav_list:
-
-                uav.send_uav_command(command_msg.nav_state,
-                                     command_msg.arming_state,
-                                     command_msg.armed,
-                                     command_msg.prearmed,
-                                     command_msg.ready_to_arm,
-                                     command_msg.lockdown,
-                                     command_msg.manual_lockdown,
-                                     command_msg.force_failsafe,
-                                     command_msg.in_esc_calibration_mode,
-                                     command_msg.soft_stop)
-        await asyncio.sleep(0)
-        print("from commander")
+            uav.send_uav_command(command_msg.nav_state,
+                                    command_msg.arming_state,
+                                    command_msg.armed,
+                                    command_msg.prearmed,
+                                    command_msg.ready_to_arm,
+                                    command_msg.lockdown,
+                                    command_msg.manual_lockdown,
+                                    command_msg.force_failsafe,
+                                    command_msg.in_esc_calibration_mode,
+                                    command_msg.soft_stop)
+    await asyncio.sleep(0)
+    print("from commander")
 
 
 async def loop_thrust_uav1():
-    while True:
-        uav1_msg = uav1.receive_command('UAV1_THRUST')
-        if not uav1_msg:
-            print('No message!\n')
-            continue
+    uav1_msg = uav1.receive_command('UAV1_THRUST')
+    if not uav1_msg:
+        print('No message!\n')
+        
 
-        if uav1_msg.get_type() == "BAD_DATA":
-            if mavutil.all_printable(uav1_msg.data):
-                sys.stdout.write(uav1_msg.data)
-                sys.stdout.flush()
-        else:
-            uav3.send_uav1_thrust(uav1_msg.actuator_control)
-        await asyncio.sleep(0)
-        print("from uav1_thrust")
+    if uav1_msg.get_type() == "BAD_DATA":
+        if mavutil.all_printable(uav1_msg.data):
+            sys.stdout.write(uav1_msg.data)
+            sys.stdout.flush()
+    else:
+        uav3.send_uav1_thrust(uav1_msg.actuator_control)
+    await asyncio.sleep(0)
+    print("from uav1_thrust")
 
 
 async def loop_thrust_uav2():
-    while True:
-        uav2_msg = uav1.receive_command('UAV2_THRUST')
-        if not uav2_msg:
-            print('No message!\n')
-            continue
+    uav2_msg = uav1.receive_command('UAV2_THRUST')
+    if not uav2_msg:
+        print('No message!\n')
 
-        if uav2_msg.get_type() == "BAD_DATA":
-            if mavutil.all_printable(uav2_msg.data):
-                sys.stdout.write(uav2_msg.data)
-                sys.stdout.flush()
-        else:
-            uav4.send_uav2_thrust(uav2_msg.actuator_control)
-        await asyncio.sleep(0)
-        print("from uav2_thrust")
+    if uav2_msg.get_type() == "BAD_DATA":
+        if mavutil.all_printable(uav2_msg.data):
+            sys.stdout.write(uav2_msg.data)
+            sys.stdout.flush()
+    else:
+        uav4.send_uav2_thrust(uav2_msg.actuator_control)
+    await asyncio.sleep(0)
+    print("from uav2_thrust")
 
 async def loop_thrust_uav3():
-    while True:
-        uav3_msg = uav1.receive_command('UAV3_THRUST')
-        if not uav3_msg:
-            print('No message!\n')
-            continue
+    uav3_msg = uav1.receive_command('UAV3_THRUST')
+    if not uav3_msg:
+        print('No message!\n')
 
-        if uav3_msg.get_type() == "BAD_DATA":
-            if mavutil.all_printable(uav3_msg.data):
-                sys.stdout.write(uav3_msg.data)
-                sys.stdout.flush()
-        else:
-            uav5.send_uav3_thrust(uav3_msg.actuator_control)
-        await asyncio.sleep(0)
-        print("from uav3_thrust")
+    if uav3_msg.get_type() == "BAD_DATA":
+        if mavutil.all_printable(uav3_msg.data):
+            sys.stdout.write(uav3_msg.data)
+            sys.stdout.flush()
+    else:
+        uav5.send_uav3_thrust(uav3_msg.actuator_control)
+    await asyncio.sleep(0)
+    print("from uav3_thrust")
 
 async def loop_thrust_uav4():
-    while True:
-        uav4_msg = uav1.receive_command('UAV4_THRUST')
-        if not uav4_msg:
-            print('No message!\n')
-            continue
+    uav4_msg = uav1.receive_command('UAV4_THRUST')
+    if not uav4_msg:
+        print('No message!\n')
 
-        if uav4_msg.get_type() == "BAD_DATA":
-            if mavutil.all_printable(uav4_msg.data):
-                sys.stdout.write(uav4_msg.data)
-                sys.stdout.flush()
-        else:
-            uav6.send_uav4_thrust(uav4_msg.actuator_control)
-        await asyncio.sleep(0)
-        print("from uav4_thrust")
+    if uav4_msg.get_type() == "BAD_DATA":
+        if mavutil.all_printable(uav4_msg.data):
+            sys.stdout.write(uav4_msg.data)
+            sys.stdout.flush()
+    else:
+        uav6.send_uav4_thrust(uav4_msg.actuator_control)
+    await asyncio.sleep(0)
+    print("from uav4_thrust")
 
 
 # async def main():
@@ -210,13 +200,14 @@ if __name__ == "__main__":
         start = time.perf_counter()
 
         loop = asyncio.get_event_loop()
-        loop.create_task(loop_command())
-        loop.create_task(loop_thrust_uav1())
-        loop.create_task(loop_thrust_uav2())
-        loop.create_task(loop_thrust_uav3())
-        loop.create_task(loop_thrust_uav4())
 
-        loop.run_forever()
+        while True:
+            loop.create_task(loop_command())
+            loop.create_task(loop_thrust_uav1())
+            loop.create_task(loop_thrust_uav2())
+            loop.create_task(loop_thrust_uav3())
+            loop.create_task(loop_thrust_uav4())
+
             
     except KeyboardInterrupt:
         pass
