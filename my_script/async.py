@@ -96,6 +96,7 @@ def loop_command():
         print('No message!\n')
 
     if command_msg.get_type() == "BAD_DATA":
+        pass
         if mavutil.all_printable(command_msg.data):
             sys.stdout.write(command_msg.data)
             sys.stdout.flush()
@@ -121,8 +122,8 @@ def loop_thrust_uav1():
     if not uav1_msg:
         print('No message!\n')
         
-
     if uav1_msg.get_type() == "BAD_DATA":
+        pass
         if mavutil.all_printable(uav1_msg.data):
             sys.stdout.write(uav1_msg.data)
             sys.stdout.flush()
@@ -137,6 +138,7 @@ def loop_thrust_uav2():
         print('No message!\n')
 
     if uav2_msg.get_type() == "BAD_DATA":
+        pass
         if mavutil.all_printable(uav2_msg.data):
             sys.stdout.write(uav2_msg.data)
             sys.stdout.flush()
@@ -150,6 +152,7 @@ def loop_thrust_uav3():
         print('No message!\n')
 
     if uav3_msg.get_type() == "BAD_DATA":
+        pass
         if mavutil.all_printable(uav3_msg.data):
             sys.stdout.write(uav3_msg.data)
             sys.stdout.flush()
@@ -163,6 +166,7 @@ def loop_thrust_uav4():
         print('No message!\n')
 
     if uav4_msg.get_type() == "BAD_DATA":
+        pass
         if mavutil.all_printable(uav4_msg.data):
             sys.stdout.write(uav4_msg.data)
             sys.stdout.flush()
