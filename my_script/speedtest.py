@@ -90,7 +90,6 @@ def initialize():
     print("All units connected")
 
 def loop_command():
-    global old_msg, current_msg
     command_msg = uav1.receive_command("UAV_COMMAND")
     #check that the message is valid before attempting to use it
     if not command_msg:
@@ -103,8 +102,7 @@ def loop_command():
                 sys.stdout.write(command_msg.data)
                 sys.stdout.flush()
         else:
-            current_msg = time.perf_counter()
-            print("Transmission speed 3: " + str(current_msg - old_msg))
+
             for uav in children_uav_list:
 
                 uav.send_uav_command(command_msg.nav_state,
@@ -117,24 +115,29 @@ def loop_command():
                                         command_msg.force_failsafe,
                                         command_msg.in_esc_calibration_mode,
                                         command_msg.soft_stop)
-            old_msg = current_msg
 
     print("from commander")
 
 
 def loop_thrust_uav1():
+    global old_msg, current_msg
+
     uav1_msg = uav1.receive_command('UAV1_THRUST')
     if not uav1_msg:
         return
         print('No message!\n')
 
     else:
+        current_msg = time.perf_counter()
+        print("Transmission speed 3: " + str(current_msg - old_msg))
         if uav1_msg.get_type() == "BAD_DATA":
             if mavutil.all_printable(uav1_msg.data):
                 sys.stdout.write(uav1_msg.data)
                 sys.stdout.flush()
         else:
             uav3.send_uav1_thrust(uav1_msg.actuator_control)
+            old_msg = current_msg
+
     print("from uav1_thrust")
 
 def loop_thrust_uav2():
