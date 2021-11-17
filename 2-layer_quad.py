@@ -116,11 +116,8 @@ def loop_command():
                                         command_msg.in_esc_calibration_mode,
                                         command_msg.soft_stop)
 
-    print("from commander")
-
-
 def loop_thrust_uav1():
-    global old_msg, current_msg
+    # global old_msg, current_msg
 
     uav1_msg = uav1.receive_command('UAV1_THRUST')
     if not uav1_msg:
@@ -128,17 +125,15 @@ def loop_thrust_uav1():
         print('No message!\n')
 
     else:
-        current_msg = time.perf_counter()
-        print("Transmission speed 3: " + str(current_msg - old_msg))
+        # current_msg = time.perf_counter()
+        # print("Transmission speed 3: " + str(current_msg - old_msg))
         if uav1_msg.get_type() == "BAD_DATA":
             if mavutil.all_printable(uav1_msg.data):
                 sys.stdout.write(uav1_msg.data)
                 sys.stdout.flush()
         else:
             uav3.send_uav1_thrust(uav1_msg.actuator_control)
-            old_msg = current_msg
-
-    print("from uav1_thrust")
+            # old_msg = current_msg
 
 def loop_thrust_uav2():
     uav2_msg = uav1.receive_command('UAV2_THRUST')
@@ -153,7 +148,6 @@ def loop_thrust_uav2():
                 sys.stdout.flush()
         else:
             uav4.send_uav2_thrust(uav2_msg.actuator_control)
-    print("from uav2_thrust")
 
 def loop_thrust_uav3():
 
@@ -171,10 +165,6 @@ def loop_thrust_uav3():
         else:
             uav5.send_uav3_thrust(uav3_msg.actuator_control)
 
-    print("from uav3_thrust")
-
-
-
 def loop_thrust_uav4():
 
     uav4_msg = uav1.receive_command('UAV4_THRUST')
@@ -190,20 +180,13 @@ def loop_thrust_uav4():
         else:
             uav6.send_uav4_thrust(uav4_msg.actuator_control)
 
-    print("from uav4_thrust")
-
 if __name__ == "__main__":
 
     os.environ['MAVLINK20'] = '1'
     mavutil.set_dialect("multi_uav")
     initialize()
 
-
-    old_msg = 0
-
     try:
-
-        # start = time.perf_counter()
 
         while True:
             loop_command()
@@ -217,6 +200,3 @@ if __name__ == "__main__":
 
     finally:
         pass
-        # finish = time.perf_counter()
-
-    # print(f'Finished in {round(finish-start, 2)} second(s)')
