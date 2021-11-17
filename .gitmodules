@@ -1,4 +1,4 @@
 [submodule "pymavlink"]
 	path = pymavlink
-	url = https://github.com/ardupilot/pymavlink.git
+	url = https://github.com/chunmusic/mavlink.git
 	branch = 2-layer
