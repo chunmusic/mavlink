@@ -75,7 +75,7 @@ def initialize():
 
     global uav1, uav3, uav4, uav5, uav6, uav7, uav8, parent_uav_list, children_uav_list
 
-    uav1 = uav_unit("/dev/ttyAMA0",921600)  #Parent UAV
+    uav1 = uav_unit("/dev/ttyAMA0",2000000)  #Parent UAV
     uav3 = uav_unit("/dev/ttyid3",921600)   #Children UAV ID3
     uav4 = uav_unit("/dev/ttyid4",921600)   #Children UAV ID4
     uav5 = uav_unit("/dev/ttyid5",921600)   #Children UAV ID5
@@ -126,21 +126,27 @@ def loop_command():
                                         command_msg.force_failsafe,
                                         command_msg.in_esc_calibration_mode,
                                         command_msg.soft_stop)
-
+    print("from commander")
 
 def loop_thrust_uav1():
+    global old_msg, current_msg
+
     uav1_msg = uav1.receive_command('UAV1_THRUST')
     if not uav1_msg:
         return
         print('No message!\n')
 
     else:
+        current_msg = time.perf_counter()
+        print("Transmission_speed 3: " + str(current_msg - old_msg))
         if uav1_msg.get_type() == "BAD_DATA":
             if mavutil.all_printable(uav1_msg.data):
                 sys.stdout.write(uav1_msg.data)
                 sys.stdout.flush()
         else:
             uav3.send_uav1_thrust(uav1_msg.actuator_control)
+            old_msg = current_msg
+    print("from uav1_thrust")
 
 def loop_thrust_uav2():
     uav2_msg = uav1.receive_command('UAV2_THRUST')
@@ -155,6 +161,8 @@ def loop_thrust_uav2():
                 sys.stdout.flush()
         else:
             uav4.send_uav2_thrust(uav2_msg.actuator_control)
+    
+    print("from uav2_thrust")
 
 def loop_thrust_uav3():
     uav3_msg = uav1.receive_command('UAV3_THRUST')
@@ -170,6 +178,8 @@ def loop_thrust_uav3():
         else:
             uav5.send_uav3_thrust(uav3_msg.actuator_control)
 
+    print("from uav3_thrust")
+
 def loop_thrust_uav4():
     uav4_msg = uav1.receive_command('UAV4_THRUST')
     if not uav4_msg:
@@ -183,6 +193,8 @@ def loop_thrust_uav4():
                 sys.stdout.flush()
         else:
             uav6.send_uav4_thrust(uav4_msg.actuator_control)
+
+    print("from uav4_thrust")
 
 def loop_thrust_uav5():
     uav5_msg = uav1.receive_command('UAV5_THRUST')
@@ -198,6 +210,8 @@ def loop_thrust_uav5():
         else:
             uav7.send_uav5_thrust(uav5_msg.actuator_control)
 
+    print("from uav5_thrust")
+
 def loop_thrust_uav6():
     uav6_msg = uav1.receive_command('UAV6_THRUST')
     if not uav6_msg:
@@ -212,14 +226,17 @@ def loop_thrust_uav6():
         else:
             uav8.send_uav6_thrust(uav6_msg.actuator_control)
 
+    print("from uav6_thrust")
+
 if __name__ == "__main__":
 
     os.environ['MAVLINK20'] = '1'
     mavutil.set_dialect("multi_uav")
     initialize()
 
+    old_msg = 0
     try:
-
+        start = time.perf_counter()
         while True:
             loop_command()
             loop_thrust_uav1()
